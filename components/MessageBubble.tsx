@@ -35,8 +35,8 @@ export function MessageBubble({ message }: MessageBubbleProps) {
             {/* Avatar */}
             <div
                 className={`shrink-0 w-8 h-8 rounded-xl flex items-center justify-center text-sm ${isUser
-                        ? "bg-gradient-to-br from-violet-500 to-purple-600 shadow-lg shadow-violet-900/40"
-                        : "bg-gradient-to-br from-blue-500 via-violet-600 to-purple-600 shadow-lg shadow-violet-900/40"
+                    ? "bg-gradient-to-br from-violet-500 to-purple-600 shadow-lg shadow-violet-900/40"
+                    : "bg-gradient-to-br from-blue-500 via-violet-600 to-purple-600 shadow-lg shadow-violet-900/40"
                     }`}
             >
                 {isUser ? <User size={15} className="text-white" /> : <Sparkles size={15} className="text-white" />}
@@ -46,15 +46,15 @@ export function MessageBubble({ message }: MessageBubbleProps) {
             <div className={`flex flex-col gap-1 max-w-[80%] ${isUser ? "items-end" : "items-start"}`}>
                 <div className="flex items-center gap-2 mb-0.5">
                     <span className="text-xs font-medium text-white/40">
-                        {isUser ? "Kamu" : "Gemini AI"}
+                        {isUser ? "Kamu" : "Astra Chat"}
                     </span>
                     <span className="text-xs text-white/20">{time}</span>
                 </div>
 
                 <div
                     className={`relative rounded-2xl px-4 py-3 text-sm leading-relaxed ${isUser
-                            ? "bg-gradient-to-br from-violet-600 to-purple-700 text-white rounded-tr-sm shadow-lg shadow-violet-900/30"
-                            : "bg-white/5 backdrop-blur-sm border border-white/10 text-white/90 rounded-tl-sm"
+                        ? "bg-gradient-to-br from-violet-600 to-purple-700 text-white rounded-tr-sm shadow-lg shadow-violet-900/30"
+                        : "bg-white/5 backdrop-blur-sm border border-white/10 text-white/90 rounded-tl-sm"
                         } ${message.isStreaming ? "streaming-cursor" : ""}`}
                 >
                     {isUser ? (

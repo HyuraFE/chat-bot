@@ -1,14 +1,21 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { ClerkProvider } from '@clerk/nextjs'
 import "./globals.css";
 
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
+};
+
 export const metadata: Metadata = {
-  title: "Gemini AI Chat",
-  description: "Chatbot AI modern berbasis Google Gemini — cepat, cerdas, dan intuitif.",
+  title: "Astra Chat",
+  description: "Chatbot AI modern terintegrasi — cepat, cerdas, dan intuitif.",
   keywords: ["AI", "chatbot", "gemini", "google", "artificial intelligence"],
   openGraph: {
-    title: "Gemini AI Chat",
-    description: "Chatbot AI modern berbasis Google Gemini",
+    title: "Astra Chat",
+    description: "Chatbot AI modern terintegrasi",
     type: "website",
   },
 };

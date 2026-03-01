@@ -53,9 +53,9 @@ export function ChatInput({
         <div className="p-4 border-t border-white/5">
             <div className="max-w-4xl mx-auto">
                 {/* Model selector */}
-                <div className="flex items-center gap-2 mb-2">
-                    <span className="text-xs text-white/30">Model:</span>
-                    <div className="flex gap-1">
+                <div className="flex flex-col sm:flex-row sm:items-center gap-2 mb-2">
+                    <span className="text-xs text-white/30 shrink-0">Model:</span>
+                    <div className="flex flex-wrap gap-1">
                         {MODELS.map((m) => (
                             <button
                                 key={m.id}
@@ -78,7 +78,7 @@ export function ChatInput({
                         value={value}
                         onChange={(e) => onChange(e.target.value)}
                         onKeyDown={handleKeyDown}
-                        placeholder="Tanya apapun kepada Gemini AI..."
+                        placeholder="Tanya apapun kepada Astra Chat..."
                         rows={1}
                         disabled={disabled}
                         className="flex-1 bg-transparent text-white placeholder-white/25 resize-none outline-none text-sm leading-relaxed max-h-48 scrollbar-thin scrollbar-thumb-white/10"
@@ -108,7 +108,7 @@ export function ChatInput({
                 </div>
 
                 <p className="text-center text-xs text-white/15 mt-2">
-                    Gemini AI dapat membuat kesalahan. Periksa informasi penting.
+                    Astra Chat dapat membuat kesalahan. Periksa informasi penting.
                 </p>
             </div>
         </div>

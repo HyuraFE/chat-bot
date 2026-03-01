@@ -50,7 +50,7 @@ export function Sidebar({
                             <Sparkles size={16} className="text-white" />
                         </div>
                         <div>
-                            <h1 className="text-sm font-semibold text-white">Gemini Chat</h1>
+                            <h1 className="text-sm font-semibold text-white">Astra Chat</h1>
                             <p className="text-xs text-white/30">AI Assistant</p>
                         </div>
                     </div>
@@ -85,8 +85,8 @@ export function Sidebar({
                             <div
                                 key={session.id}
                                 className={`group flex items-center gap-2 px-3 py-2.5 rounded-xl cursor-pointer transition-all duration-200 ${activeSessionId === session.id
-                                        ? "bg-violet-500/20 border border-violet-500/30 text-white"
-                                        : "hover:bg-white/5 text-white/60 hover:text-white/80 border border-transparent"
+                                    ? "bg-violet-500/20 border border-violet-500/30 text-white"
+                                    : "hover:bg-white/5 text-white/60 hover:text-white/80 border border-transparent"
                                     }`}
                                 onClick={() => onSelectSession(session.id)}
                             >
@@ -114,7 +114,7 @@ export function Sidebar({
                 {/* Footer */}
                 <div className="p-3 border-t border-white/5">
                     <p className="text-xs text-white/20 text-center">
-                        Powered by Google Gemini
+                        Powered by Astra AI
                     </p>
                 </div>
             </aside>

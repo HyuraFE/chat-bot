@@ -312,17 +312,17 @@ export function ChatInterface() {
                     >
                         <Menu size={18} />
                     </button>
-                    <div className="flex-1">
-                        <h2 className="text-sm font-semibold text-white">
-                            {activeSession?.title ?? "Gemini AI Chat"}
+                    <div className="flex-1 min-w-0 pr-2">
+                        <h2 className="text-sm font-semibold text-white truncate">
+                            {activeSession?.title ?? "Astra Chat"}
                         </h2>
                         <div className="flex items-center gap-1.5">
-                            <div className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
-                            <span className="text-xs text-white/30">{selectedModel}</span>
+                            <div className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse shrink-0" />
+                            <span className="text-xs text-white/30 truncate">{selectedModel}</span>
                         </div>
                     </div>
                     <div className="flex items-center gap-3">
-                        <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-violet-500/10 border border-violet-500/20">
+                        <div className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-violet-500/10 border border-violet-500/20">
                             <Zap size={12} className="text-violet-400" />
                             <span className="text-xs text-violet-300 font-medium">Online</span>
                         </div>
@@ -343,7 +343,7 @@ export function ChatInterface() {
                                     <Sparkles size={36} className="text-white" />
                                 </div>
                                 <h1 className="text-3xl font-bold bg-gradient-to-r from-white via-violet-200 to-purple-300 bg-clip-text text-transparent">
-                                    Gemini AI
+                                    Astra Chat
                                 </h1>
                                 <p className="text-white/40 text-sm max-w-xs">
                                     Asisten AI cerdas yang siap membantu. Tanya apa saja!

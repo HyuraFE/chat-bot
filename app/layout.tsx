@@ -33,10 +33,14 @@ function CapacitorListener() {
         App.addListener('appUrlOpen', (data) => {
           console.log('App opened with URL:', data.url);
           const url = new URL(data.url);
-          const clerkToken = url.searchParams.get('__clerk_db_jwt');
-          if (clerkToken) {
-            // Redirect to root with the token so Clerk can process it
-            window.location.href = `/?__clerk_db_jwt=${clerkToken}`;
+
+          // Jika URL deep link adalah custom scheme kita
+          if (url.protocol === 'com.anda.astrachat:') {
+            const clerkToken = url.searchParams.get('__clerk_db_jwt');
+            if (clerkToken) {
+              // Redirect to root with the token so Clerk can process it
+              window.location.href = `/?__clerk_db_jwt=${clerkToken}`;
+            }
           }
         });
       }

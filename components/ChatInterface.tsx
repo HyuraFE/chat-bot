@@ -7,6 +7,7 @@ import { ChatInput } from "./ChatInput";
 import { Sidebar } from "./Sidebar";
 import { TypingIndicator } from "./TypingIndicator";
 import { Menu, Sparkles, Zap } from "lucide-react";
+import { UserButton } from "@clerk/nextjs";
 
 const generateId = () => Math.random().toString(36).slice(2, 11);
 
@@ -320,9 +321,15 @@ export function ChatInterface() {
                             <span className="text-xs text-white/30">{selectedModel}</span>
                         </div>
                     </div>
-                    <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-violet-500/10 border border-violet-500/20">
-                        <Zap size={12} className="text-violet-400" />
-                        <span className="text-xs text-violet-300 font-medium">Online</span>
+                    <div className="flex items-center gap-3">
+                        <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-violet-500/10 border border-violet-500/20">
+                            <Zap size={12} className="text-violet-400" />
+                            <span className="text-xs text-violet-300 font-medium">Online</span>
+                        </div>
+                        {/* Clerk Avatar Profile */}
+                        <div className="pl-1 flex items-center justify-center">
+                            <UserButton afterSignOutUrl="/" appearance={{ elements: { userButtonAvatarBox: "w-8 h-8 shadow-lg ring-2 ring-white/10" } }} />
+                        </div>
                     </div>
                 </header>
 

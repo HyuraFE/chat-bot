@@ -20,6 +20,34 @@ export const metadata: Metadata = {
   },
 };
 
+'use client';
+
+import { App } from '@capacitor/app';
+import { useEffect } from 'react';
+
+function CapacitorListener() {
+  useEffect(() => {
+    const initApp = async () => {
+      // Check if we are running in a Capacitor context
+      if (typeof window !== 'undefined' && (window as any).Capacitor) {
+        App.addListener('appUrlOpen', (data) => {
+          console.log('App opened with URL:', data.url);
+          const url = new URL(data.url);
+          const clerkToken = url.searchParams.get('__clerk_db_jwt');
+          if (clerkToken) {
+            // Redirect to root with the token so Clerk can process it
+            window.location.href = `/?__clerk_db_jwt=${clerkToken}`;
+          }
+        });
+      }
+    };
+
+    initApp();
+  }, []);
+
+  return null;
+}
+
 export default function RootLayout({
   children,
 }: {
@@ -32,7 +60,10 @@ export default function RootLayout({
           <link rel="preconnect" href="https://fonts.googleapis.com" />
           <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         </head>
-        <body className="antialiased">{children}</body>
+        <body className="antialiased">
+          <CapacitorListener />
+          {children}
+        </body>
       </html>
     </ClerkProvider>
   );

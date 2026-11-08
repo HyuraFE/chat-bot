@@ -1,8 +1,9 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
 @import "tailwindcss";
 
 :root {
-  --font-sans: 'Inter', system-ui, sans-serif;
+  --font-sans: 'Plus Jakarta Sans', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
 }
 
 * {
@@ -15,20 +16,20 @@ body {
   margin: 0;
   padding: 0;
   font-family: var(--font-sans);
-  background: #030712;
-  color: #f9fafb;
+  background: #090d16;
+  color: #f1f5f9;
   overflow: hidden;
 }
 
-/* Animated gradient background */
+/* Nordic Frost / Midnight Slate Ambient Background */
 body::before {
   content: '';
   position: fixed;
   inset: 0;
   background:
-    radial-gradient(ellipse 80% 60% at 20% 0%, rgba(139, 92, 246, 0.12) 0%, transparent 60%),
-    radial-gradient(ellipse 60% 50% at 80% 100%, rgba(99, 102, 241, 0.10) 0%, transparent 60%),
-    radial-gradient(ellipse 40% 40% at 50% 50%, rgba(168, 85, 247, 0.05) 0%, transparent 80%);
+    radial-gradient(ellipse 70% 50% at 20% 0%, rgba(14, 165, 233, 0.08) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 50% at 80% 100%, rgba(56, 189, 248, 0.05) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 40% at 50% 50%, rgba(30, 41, 59, 0.3) 0%, transparent 80%);
   pointer-events: none;
   z-index: 0;
 }
@@ -39,9 +40,10 @@ main {
   z-index: 1;
 }
 
-/* Scrollbar */
+/* Scrollbar Minimal */
 .scrollbar-thin::-webkit-scrollbar {
-  width: 4px;
+  width: 5px;
+  height: 5px;
 }
 
 .scrollbar-thin::-webkit-scrollbar-track {
@@ -49,106 +51,76 @@ main {
 }
 
 .scrollbar-thin::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.08);
+  background: rgba(148, 163, 184, 0.15);
   border-radius: 9999px;
 }
 
 .scrollbar-thin::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.15);
+  background: rgba(148, 163, 184, 0.28);
 }
 
 /* Animations */
 @keyframes fadeIn {
   from {
     opacity: 0;
-    transform: translateY(8px);
+    transform: translateY(6px);
   }
-
   to {
     opacity: 1;
     transform: translateY(0);
   }
 }
 
-@keyframes slideInLeft {
-  from {
-    opacity: 0;
-    transform: translateX(-16px);
+@keyframes pulseGlow {
+  0%, 100% {
+    opacity: 0.6;
+    transform: scale(1);
   }
-
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-@keyframes shimmer {
-  0% {
-    background-position: -200% 0;
-  }
-
-  100% {
-    background-position: 200% 0;
-  }
-}
-
-@keyframes float {
-
-  0%,
-  100% {
-    transform: translateY(0px);
-  }
-
   50% {
-    transform: translateY(-6px);
+    opacity: 1;
+    transform: scale(1.05);
   }
 }
 
 .animate-fadeIn {
-  animation: fadeIn 0.3s ease-out forwards;
+  animation: fadeIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-.animate-slideInLeft {
-  animation: slideInLeft 0.3s ease-out forwards;
+.animate-pulseGlow {
+  animation: pulseGlow 3s ease-in-out infinite;
 }
 
-.animate-float {
-  animation: float 3s ease-in-out infinite;
+/* Streaming cursor effect */
+.streaming-cursor::after {
+  content: "▋";
+  display: inline-block;
+  vertical-align: middle;
+  color: #38bdf8;
+  margin-left: 2px;
+  animation: blink 0.8s infinite;
 }
 
-/* Prose overrides for markdown */
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+/* Markdown typography refinements */
 .prose pre {
+  margin: 0 !important;
   background: transparent !important;
   padding: 0 !important;
-  margin: 0 !important;
 }
 
 .prose code {
-  font-size: 0.8rem;
+  color: #7dd3fc;
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
 }
 
-/* Glass morphism utility */
 .glass {
-  background: rgba(255, 255, 255, 0.04);
+  background: rgba(15, 23, 42, 0.6);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-}
-
-/* Focus-within glow */
-.focus-glow:focus-within {
-  box-shadow: 0 0 0 1px rgba(139, 92, 246, 0.4), 0 0 30px rgba(139, 92, 246, 0.1);
-}
-
-/* Streaming cursor blink */
-@keyframes blink {
-
-  0%,
-  100% {
-    opacity: 1;
-  }
-
-  50% {
-    opacity: 0;
-  }
+  border: 1px solid rgba(148, 163, 184, 0.1);
 }

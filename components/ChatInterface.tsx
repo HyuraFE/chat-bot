@@ -287,7 +287,7 @@ export function ChatInterface() {
     ];
 
     return (
-        <div className="flex h-screen overflow-hidden bg-gray-950">
+        <div className="flex h-screen overflow-hidden bg-slate-950">
             {/* Sidebar */}
             <Sidebar
                 sessions={sessions}
@@ -303,62 +303,62 @@ export function ChatInterface() {
             />
 
             {/* Main */}
-            <main className="flex flex-col flex-1 overflow-hidden relative">
+            <main className="flex flex-col flex-1 overflow-hidden relative bg-slate-950/60">
                 {/* Top bar */}
-                <header className="flex items-center gap-3 px-4 py-3 border-b border-white/5 bg-black/20 backdrop-blur-sm">
+                <header className="flex items-center gap-3 px-5 py-3 border-b border-slate-800/80 bg-slate-950/80 backdrop-blur-md">
                     <button
                         onClick={() => setSidebarOpen(true)}
-                        className="lg:hidden p-2 rounded-xl hover:bg-white/5 text-white/50 hover:text-white/80 transition-colors"
+                        className="lg:hidden p-2 rounded-xl hover:bg-slate-800 text-slate-400 hover:text-slate-200 transition-colors"
                     >
                         <Menu size={18} />
                     </button>
                     <div className="flex-1 min-w-0 pr-2">
-                        <h2 className="text-sm font-semibold text-white truncate">
+                        <h2 className="text-sm font-semibold text-slate-100 truncate">
                             {activeSession?.title ?? "Astra Chat"}
                         </h2>
-                        <div className="flex items-center gap-1.5">
-                            <div className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse shrink-0" />
-                            <span className="text-xs text-white/30 truncate">{selectedModel}</span>
+                        <div className="flex items-center gap-1.5 mt-0.5">
+                            <div className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse shrink-0" />
+                            <span className="text-[11px] text-slate-400 font-mono truncate">{selectedModel}</span>
                         </div>
                     </div>
                     <div className="flex items-center gap-3">
-                        <div className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-violet-500/10 border border-violet-500/20">
-                            <Zap size={12} className="text-violet-400" />
-                            <span className="text-xs text-violet-300 font-medium">Online</span>
+                        <div className="hidden sm:flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-sky-500/10 border border-sky-500/20">
+                            <Zap size={11} className="text-sky-400" />
+                            <span className="text-[11px] text-sky-300 font-medium">Nordic Active</span>
                         </div>
                         {/* Clerk Avatar Profile */}
                         <div className="pl-1 flex items-center justify-center">
-                            <UserButton afterSignOutUrl="/" appearance={{ elements: { userButtonAvatarBox: "w-8 h-8 shadow-lg ring-2 ring-white/10" } }} />
+                            <UserButton afterSignOutUrl="/" appearance={{ elements: { userButtonAvatarBox: "w-8 h-8 shadow-sm ring-1 ring-slate-700" } }} />
                         </div>
                     </div>
                 </header>
 
                 {/* Messages */}
-                <div className="flex-1 overflow-y-auto scrollbar-thin scrollbar-thumb-white/10 scrollbar-track-transparent">
+                <div className="flex-1 overflow-y-auto scrollbar-thin scrollbar-thumb-slate-800 scrollbar-track-transparent">
                     {messages.length === 0 ? (
                         /* Welcome screen */
                         <div className="flex flex-col items-center justify-center h-full gap-8 px-4 py-12">
-                            <div className="text-center space-y-3">
-                                <div className="w-20 h-20 mx-auto rounded-3xl bg-gradient-to-br from-violet-500 via-purple-600 to-indigo-600 flex items-center justify-center shadow-2xl shadow-violet-900/50 ring-1 ring-white/10">
-                                    <Sparkles size={36} className="text-white" />
+                            <div className="text-center space-y-3 max-w-sm">
+                                <div className="w-16 h-16 mx-auto rounded-2xl bg-slate-900 border border-slate-800 flex items-center justify-center text-sky-400 shadow-lg shadow-black/30">
+                                    <Sparkles size={28} />
                                 </div>
-                                <h1 className="text-3xl font-bold bg-gradient-to-r from-white via-violet-200 to-purple-300 bg-clip-text text-transparent">
+                                <h1 className="text-2xl font-bold text-slate-100 tracking-tight">
                                     Astra Chat
                                 </h1>
-                                <p className="text-white/40 text-sm max-w-xs">
-                                    Asisten AI cerdas yang siap membantu. Tanya apa saja!
+                                <p className="text-slate-400 text-xs leading-relaxed">
+                                    Ruang percakapan cerdas dengan tata letak minimalis dan performa responsif.
                                 </p>
                             </div>
 
-                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 w-full max-w-lg">
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 w-full max-w-lg">
                                 {SUGGESTIONS.map((s, i) => (
                                     <button
                                         key={i}
                                         onClick={() => setInput(s.text)}
-                                        className="flex items-center gap-3 p-4 rounded-2xl bg-white/5 hover:bg-white/8 border border-white/8 hover:border-violet-500/30 text-left transition-all duration-200 group hover:scale-[1.02] active:scale-[0.98]"
+                                        className="flex items-center gap-3 p-3.5 rounded-xl bg-slate-900/60 hover:bg-slate-900 border border-slate-800 hover:border-sky-500/40 text-left transition-all duration-150 group shadow-xs"
                                     >
-                                        <span className="text-xl">{s.icon}</span>
-                                        <span className="text-sm text-white/60 group-hover:text-white/80 leading-snug">
+                                        <span className="text-lg shrink-0">{s.icon}</span>
+                                        <span className="text-xs text-slate-300 group-hover:text-white leading-normal font-medium">
                                             {s.text}
                                         </span>
                                     </button>
@@ -366,7 +366,7 @@ export function ChatInterface() {
                             </div>
                         </div>
                     ) : (
-                        <div className="py-4 space-y-1 max-w-4xl mx-auto w-full">
+                        <div className="py-4 space-y-1 w-full">
                             {messages.map((message) => (
                                 <MessageBubble key={message.id} message={message} />
                             ))}

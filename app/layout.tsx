@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
-import { ClerkProvider } from '@clerk/nextjs'
+import { ClerkProvider } from "@clerk/nextjs";
 import "./globals.css";
+import { CapacitorListener } from "@/components/CapacitorListener";
 
 export const viewport: Viewport = {
   width: "device-width",
@@ -19,38 +20,6 @@ export const metadata: Metadata = {
     type: "website",
   },
 };
-
-'use client';
-
-import { App } from '@capacitor/app';
-import { useEffect } from 'react';
-
-function CapacitorListener() {
-  useEffect(() => {
-    const initApp = async () => {
-      // Check if we are running in a Capacitor context
-      if (typeof window !== 'undefined' && (window as any).Capacitor) {
-        App.addListener('appUrlOpen', (data) => {
-          console.log('App opened with URL:', data.url);
-          const url = new URL(data.url);
-
-          // Jika URL deep link adalah custom scheme kita
-          if (url.protocol === 'com.anda.astrachat:') {
-            const clerkToken = url.searchParams.get('__clerk_db_jwt');
-            if (clerkToken) {
-              // Redirect to root with the token so Clerk can process it
-              window.location.href = `/?__clerk_db_jwt=${clerkToken}`;
-            }
-          }
-        });
-      }
-    };
-
-    initApp();
-  }, []);
-
-  return null;
-}
 
 export default function RootLayout({
   children,

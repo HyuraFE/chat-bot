@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { Message } from "@/types/chat";
-import { Copy, Check, User, Sparkles } from "lucide-react";
+import { Copy, Check, User, Sparkles, Terminal } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
@@ -10,6 +10,49 @@ import { oneDark } from "react-syntax-highlighter/dist/esm/styles/prism";
 
 interface MessageBubbleProps {
     message: Message;
+}
+
+function CodeBlock({ language, code }: { language: string; code: string }) {
+    const [copied, setCopied] = useState(false);
+
+    const handleCopy = async () => {
+        await navigator.clipboard.writeText(code);
+        setCopied(true);
+        setTimeout(() => setCopied(false), 2000);
+    };
+
+    return (
+        <div className="my-4 rounded-xl overflow-hidden border border-slate-700/60 bg-slate-950/80 shadow-md">
+            <div className="flex items-center justify-between px-3.5 py-1.5 bg-slate-900/90 border-b border-slate-800 text-xs">
+                <div className="flex items-center gap-1.5 text-slate-400 font-mono text-[11px]">
+                    <Terminal size={12} className="text-sky-400" />
+                    <span>{language || "code"}</span>
+                </div>
+                <button
+                    onClick={handleCopy}
+                    className="flex items-center gap-1 text-[11px] px-2 py-0.5 rounded-md bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white transition-all"
+                >
+                    {copied ? <Check size={11} className="text-emerald-400" /> : <Copy size={11} />}
+                    <span>{copied ? "Copied" : "Copy"}</span>
+                </button>
+            </div>
+            <SyntaxHighlighter
+                style={oneDark}
+                language={language || "text"}
+                PreTag="div"
+                customStyle={{
+                    margin: 0,
+                    padding: "0.85rem 1rem",
+                    background: "transparent",
+                    fontSize: "0.82rem",
+                    lineHeight: "1.6",
+                    fontFamily: "var(--font-mono)",
+                }}
+            >
+                {code}
+            </SyntaxHighlighter>
+        </div>
+    );
 }
 
 export function MessageBubble({ message }: MessageBubbleProps) {
@@ -29,124 +72,112 @@ export function MessageBubble({ message }: MessageBubbleProps) {
 
     return (
         <div
-            className={`group flex gap-3 px-4 py-2 animate-fadeIn ${isUser ? "flex-row-reverse" : "flex-row"
-                }`}
+            className={`group w-full max-w-4xl mx-auto px-4 py-3 animate-fadeIn flex gap-3.5 ${
+                isUser ? "flex-row-reverse" : "flex-row"
+            }`}
         >
-            {/* Avatar */}
+            {/* Avatar Icon */}
             <div
-                className={`shrink-0 w-8 h-8 rounded-xl flex items-center justify-center text-sm ${isUser
-                    ? "bg-gradient-to-br from-violet-500 to-purple-600 shadow-lg shadow-violet-900/40"
-                    : "bg-gradient-to-br from-blue-500 via-violet-600 to-purple-600 shadow-lg shadow-violet-900/40"
-                    }`}
+                className={`shrink-0 w-8 h-8 rounded-xl flex items-center justify-center text-sm shadow-sm mt-0.5 ${
+                    isUser
+                        ? "bg-sky-600 text-white shadow-sky-900/30"
+                        : "bg-slate-800 border border-slate-700/80 text-sky-400"
+                }`}
             >
-                {isUser ? <User size={15} className="text-white" /> : <Sparkles size={15} className="text-white" />}
+                {isUser ? <User size={15} /> : <Sparkles size={15} />}
             </div>
 
-            {/* Bubble */}
-            <div className={`flex flex-col gap-1 max-w-[80%] ${isUser ? "items-end" : "items-start"}`}>
-                <div className="flex items-center gap-2 mb-0.5">
-                    <span className="text-xs font-medium text-white/40">
-                        {isUser ? "Kamu" : "Astra Chat"}
+            {/* Bubble & Editorial Layout */}
+            <div className={`flex flex-col flex-1 min-w-0 ${isUser ? "items-end" : "items-start"}`}>
+                <div className="flex items-center gap-2 mb-1 px-1">
+                    <span className="text-[11px] font-medium text-slate-400">
+                        {isUser ? "Kamu" : "Astra AI"}
                     </span>
-                    <span className="text-xs text-white/20">{time}</span>
+                    <span className="text-[10px] text-slate-500 font-mono">{time}</span>
                 </div>
 
                 <div
-                    className={`relative rounded-2xl px-4 py-3 text-sm leading-relaxed ${isUser
-                        ? "bg-gradient-to-br from-violet-600 to-purple-700 text-white rounded-tr-sm shadow-lg shadow-violet-900/30"
-                        : "bg-white/5 backdrop-blur-sm border border-white/10 text-white/90 rounded-tl-sm"
-                        } ${message.isStreaming ? "streaming-cursor" : ""}`}
+                    className={`relative text-sm leading-relaxed ${
+                        isUser
+                            ? "max-w-[85%] bg-sky-700 text-white rounded-2xl rounded-tr-sm px-4 py-2.5 shadow-md border border-sky-600/60"
+                            : "w-full text-slate-200 pl-1 pr-4"
+                    } ${message.isStreaming ? "streaming-cursor" : ""}`}
                 >
                     {isUser ? (
                         <p className="whitespace-pre-wrap">{message.content}</p>
                     ) : (
-                        <div className="prose prose-invert prose-sm max-w-none">
+                        <div className="prose prose-invert prose-sm max-w-none text-slate-200">
                             <ReactMarkdown
                                 remarkPlugins={[remarkGfm]}
                                 components={{
                                     code({ className, children, ...rest }) {
                                         const match = /language-(\w+)/.exec(className || "");
                                         const isBlock = !!match;
+                                        const codeText = String(children).replace(/\n$/, "");
                                         return isBlock ? (
-                                            <div className="my-3 rounded-xl overflow-hidden border border-white/10">
-                                                <div className="flex items-center justify-between bg-white/5 px-4 py-2 border-b border-white/10">
-                                                    <span className="text-xs text-white/40 font-mono">{match[1]}</span>
-                                                </div>
-                                                <SyntaxHighlighter
-                                                    style={oneDark}
-                                                    language={match[1]}
-                                                    PreTag="div"
-                                                    customStyle={{
-                                                        margin: 0,
-                                                        background: "rgba(0,0,0,0.4)",
-                                                        fontSize: "0.8rem",
-                                                    }}
-                                                >
-                                                    {String(children).replace(/\n$/, "")}
-                                                </SyntaxHighlighter>
-                                            </div>
+                                            <CodeBlock language={match[1]} code={codeText} />
                                         ) : (
-                                            <code className="bg-white/10 text-violet-300 px-1.5 py-0.5 rounded text-xs font-mono" {...rest}>
+                                            <code className="bg-slate-800/80 text-sky-300 border border-slate-700/50 px-1.5 py-0.5 rounded text-[12px] font-mono" {...rest}>
                                                 {children}
                                             </code>
                                         );
                                     },
-                                    p: ({ children }) => <p className="mb-2 last:mb-0 text-white/85">{children}</p>,
-                                    ul: ({ children }) => <ul className="my-2 ml-4 list-disc space-y-1 text-white/85">{children}</ul>,
-                                    ol: ({ children }) => <ol className="my-2 ml-4 list-decimal space-y-1 text-white/85">{children}</ol>,
-                                    li: ({ children }) => <li className="text-white/85">{children}</li>,
-                                    h1: ({ children }) => <h1 className="text-xl font-bold text-white mt-4 mb-2">{children}</h1>,
-                                    h2: ({ children }) => <h2 className="text-lg font-semibold text-white mt-3 mb-2">{children}</h2>,
-                                    h3: ({ children }) => <h3 className="text-base font-semibold text-white mt-2 mb-1">{children}</h3>,
+                                    p: ({ children }) => <p className="mb-3 last:mb-0 text-slate-200/90 leading-relaxed">{children}</p>,
+                                    ul: ({ children }) => <ul className="my-2.5 ml-4 list-disc space-y-1.5 text-slate-300">{children}</ul>,
+                                    ol: ({ children }) => <ol className="my-2.5 ml-4 list-decimal space-y-1.5 text-slate-300">{children}</ol>,
+                                    li: ({ children }) => <li className="text-slate-300 leading-normal">{children}</li>,
+                                    h1: ({ children }) => <h1 className="text-lg font-bold text-slate-100 mt-4 mb-2 pb-1 border-b border-slate-800">{children}</h1>,
+                                    h2: ({ children }) => <h2 className="text-base font-semibold text-slate-100 mt-3.5 mb-2">{children}</h2>,
+                                    h3: ({ children }) => <h3 className="text-sm font-semibold text-slate-200 mt-2.5 mb-1">{children}</h3>,
                                     blockquote: ({ children }) => (
-                                        <blockquote className="border-l-2 border-violet-500 pl-3 my-2 text-white/60 italic">
+                                        <blockquote className="border-l-2 border-sky-500/80 bg-slate-900/50 rounded-r-lg pl-3.5 py-1.5 my-3 text-slate-300 italic">
                                             {children}
                                         </blockquote>
                                     ),
                                     table: ({ children }) => (
-                                        <div className="overflow-x-auto my-3">
-                                            <table className="min-w-full border border-white/10 rounded-lg overflow-hidden text-xs">
+                                        <div className="overflow-x-auto my-3 border border-slate-800 rounded-xl">
+                                            <table className="min-w-full text-xs divide-y divide-slate-800">
                                                 {children}
                                             </table>
                                         </div>
                                     ),
-                                    th: ({ children }) => <th className="bg-white/10 px-3 py-2 text-left font-semibold text-white/80 border-b border-white/10">{children}</th>,
-                                    td: ({ children }) => <td className="px-3 py-2 text-white/70 border-b border-white/5">{children}</td>,
+                                    th: ({ children }) => <th className="bg-slate-900/80 px-3.5 py-2 text-left font-semibold text-slate-300">{children}</th>,
+                                    td: ({ children }) => <td className="px-3.5 py-2 text-slate-300 bg-slate-950/40">{children}</td>,
                                     a: ({ children, href }) => (
-                                        <a href={href} target="_blank" rel="noopener noreferrer" className="text-violet-400 hover:text-violet-300 underline underline-offset-2">
+                                        <a href={href} target="_blank" rel="noopener noreferrer" className="text-sky-400 hover:text-sky-300 underline underline-offset-2">
                                             {children}
                                         </a>
                                     ),
-                                    strong: ({ children }) => <strong className="font-semibold text-white">{children}</strong>,
-                                    hr: () => <hr className="border-white/10 my-3" />,
+                                    strong: ({ children }) => <strong className="font-semibold text-slate-100">{children}</strong>,
+                                    hr: () => <hr className="border-slate-800 my-4" />,
                                 }}
                             >
                                 {message.content}
                             </ReactMarkdown>
-                            {message.isStreaming && (
-                                <span className="inline-block w-0.5 h-4 bg-violet-400 animate-pulse ml-0.5 align-middle" />
-                            )}
                         </div>
                     )}
                 </div>
 
-                {/* Copy button */}
-                <button
-                    onClick={handleCopy}
-                    className="opacity-0 group-hover:opacity-100 transition-all duration-200 flex items-center gap-1 text-xs text-white/30 hover:text-white/60 px-2 py-1 rounded-lg hover:bg-white/5"
-                >
-                    {copied ? (
-                        <>
-                            <Check size={11} />
-                            <span>Disalin!</span>
-                        </>
-                    ) : (
-                        <>
-                            <Copy size={11} />
-                            <span>Salin</span>
-                        </>
-                    )}
-                </button>
+                {/* Micro Action: Copy */}
+                <div className="flex items-center gap-2 mt-1 px-1">
+                    <button
+                        onClick={handleCopy}
+                        className="opacity-0 group-hover:opacity-100 transition-all duration-150 flex items-center gap-1 text-[11px] text-slate-400 hover:text-slate-200 px-1.5 py-0.5 rounded hover:bg-slate-800/60"
+                        title="Salin isi pesan"
+                    >
+                        {copied ? (
+                            <>
+                                <Check size={11} className="text-emerald-400" />
+                                <span className="text-emerald-400">Disalin</span>
+                            </>
+                        ) : (
+                            <>
+                                <Copy size={11} />
+                                <span>Salin</span>
+                            </>
+                        )}
+                    </button>
+                </div>
             </div>
         </div>
     );

@@ -45,7 +45,6 @@ export function ChatInterface() {
     const [isLoading, setIsLoading] = useState(false);
     const [isTyping, setIsTyping] = useState(false);
     const [sidebarOpen, setSidebarOpen] = useState(false);
-    const [selectedModel, setSelectedModel] = useState("openai/gpt-oss-120b");
     const messagesEndRef = useRef<HTMLDivElement>(null);
     const abortControllerRef = useRef<AbortController | null>(null);
 
@@ -153,7 +152,7 @@ export function ChatInterface() {
             const res = await fetch("/api/chat", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ messages: sessionMessages, model: selectedModel }),
+                body: JSON.stringify({ messages: sessionMessages }),
                 signal: abortControllerRef.current.signal,
             });
 
@@ -262,7 +261,7 @@ export function ChatInterface() {
             setIsLoading(false);
             setIsTyping(false);
         }
-    }, [input, isLoading, activeSessionId, sessions, updateSessions, selectedModel]);
+    }, [input, isLoading, activeSessionId, sessions, updateSessions]);
 
     const handleStop = useCallback(() => {
         abortControllerRef.current?.abort();
@@ -318,13 +317,13 @@ export function ChatInterface() {
                         </h2>
                         <div className="flex items-center gap-1.5 mt-0.5">
                             <div className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse shrink-0" />
-                            <span className="text-[11px] text-slate-400 font-mono truncate">{selectedModel}</span>
+                            <span className="text-[11px] text-slate-400 font-mono truncate">gemini-3.5-flash-lite</span>
                         </div>
                     </div>
                     <div className="flex items-center gap-3">
                         <div className="hidden sm:flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-sky-500/10 border border-sky-500/20">
                             <Zap size={11} className="text-sky-400" />
-                            <span className="text-[11px] text-sky-300 font-medium">Nordic Active</span>
+                            <span className="text-[11px] text-sky-300 font-medium">Gemini Active</span>
                         </div>
                         {/* Clerk Avatar Profile */}
                         <div className="pl-1 flex items-center justify-center">
@@ -383,8 +382,6 @@ export function ChatInterface() {
                     onSend={handleSend}
                     onStop={handleStop}
                     isLoading={isLoading}
-                    selectedModel={selectedModel}
-                    onModelChange={setSelectedModel}
                 />
             </main>
         </div>

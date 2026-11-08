@@ -7,7 +7,8 @@ export const runtime = "nodejs";
 export async function POST(req: NextRequest) {
     try {
         const body = await req.json();
-        const { messages, model = "openai/gpt-oss-120b" } = body;
+        const { messages } = body;
+        const model = "gemini-3.5-flash-lite";
 
         console.log("[API] model:", model, "| messages:", messages?.length);
 

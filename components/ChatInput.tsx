@@ -10,18 +10,7 @@ interface ChatInputProps {
     onStop?: () => void;
     isLoading: boolean;
     disabled?: boolean;
-    selectedModel: string;
-    onModelChange: (model: string) => void;
 }
-
-const MODELS = [
-    { id: "gemini-3.0-flash", name: "Gemini 3 Flash" },
-    { id: "gemini-2.5-flash", name: "Gemini 2.5 Flash" },
-    { id: "llama3-70b-8192", name: "Llama 3 70B" },
-    { id: "llama3-8b-8192", name: "Llama 3 8B" },
-    { id: "mixtral-8x7b-32768", name: "Mixtral 8x7B" },
-    { id: "openai/gpt-oss-120b", name: "GPT-OSS 120B" },
-];
 
 export function ChatInput({
     value,
@@ -30,8 +19,6 @@ export function ChatInput({
     onStop,
     isLoading,
     disabled,
-    selectedModel,
-    onModelChange,
 }: ChatInputProps) {
     const textareaRef = useRef<HTMLTextAreaElement>(null);
 
@@ -65,32 +52,12 @@ export function ChatInput({
                         className="w-full bg-transparent text-slate-100 placeholder-slate-500 resize-none outline-none text-sm leading-relaxed max-h-44 scrollbar-thin scrollbar-thumb-slate-700 px-1 pt-1 pb-2"
                     />
 
-                    {/* Bottom Bar: Model Pill + Char count + Send */}
+                    {/* Bottom Bar: Static Model Badge + Char count + Send */}
                     <div className="flex items-center justify-between gap-2 pt-2 border-t border-slate-800/60 mt-1">
-                        {/* Compact Model Selector */}
-                        <div className="flex items-center gap-1.5 overflow-x-auto scrollbar-thin py-0.5">
-                            <span className="text-[11px] text-slate-500 shrink-0 font-medium pl-1">
-                                Model:
-                            </span>
-                            <div className="flex items-center gap-1">
-                                {MODELS.map((m) => {
-                                    const active = selectedModel === m.id;
-                                    return (
-                                        <button
-                                            key={m.id}
-                                            type="button"
-                                            onClick={() => onModelChange(m.id)}
-                                            className={`text-[11px] px-2.5 py-1 rounded-lg font-medium whitespace-nowrap transition-all duration-150 ${
-                                                active
-                                                    ? "bg-sky-500/20 text-sky-300 border border-sky-500/40 shadow-xs"
-                                                    : "text-slate-400 hover:text-slate-200 hover:bg-slate-800/60 border border-transparent"
-                                            }`}
-                                        >
-                                            {m.name}
-                                        </button>
-                                    );
-                                })}
-                            </div>
+                        {/* Fixed Model Indicator */}
+                        <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-sky-500/10 border border-sky-500/20 text-sky-300 text-[11px] font-mono select-none">
+                            <Sparkles size={12} className="text-sky-400" />
+                            <span>Gemini 3.5 Flash Lite</span>
                         </div>
 
                         {/* Actions Right */}
